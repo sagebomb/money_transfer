@@ -5,4 +5,6 @@ class Transaction < ApplicationRecord
   validates :amount, presence: true, numericality: { greater_than: 0 }
 
   enum state: { created: 'created', insuficient_funds: 'insuficient_funds', done: 'done' }
+
+  paginates_per 50
 end

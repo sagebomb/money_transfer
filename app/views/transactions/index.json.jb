@@ -1,0 +1,5 @@
+{
+  data: @transactions,
+  page: @transactions.current_page,
+  total_pages: @transactions.total_pages
+}
