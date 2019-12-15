@@ -7,14 +7,14 @@ All explicit requirements are met, except this one: 'The datastore should run in
 Lets assume that we have only one currency and one user can have only one account.
 I decided to keep things simple and created 2 tables:
 
-![pic1](public/pic1.png)
+![pic2](public/pic2.png)
 
 Unfortunately sqlite doesn't have enum (for state) and uuid types, but it's not a big deal in our case.
 There are many ways to store currencies in a database and using decimal type is probably not good idea (much better to keep it as cents using bigint). But in our case it works perfectly.
 
 For the app itself I've chosen simple but powerful solution.
 
-![pic2](public/pic2.png)
+![pic1](public/pic1.png)
 
 Since account-related operations are trivial and happen not really often - they are processed on the main backend. I think 80% (or even 90%) of load on average something-transfer system goes with transaction processing. And it's really important do not block IO and give the response ASAP. That's why I think it's a great idea to push transaction data into some message broker and give an immediate response. And there will be a microservice to process transactions asynchronously of course 🙃.
 
