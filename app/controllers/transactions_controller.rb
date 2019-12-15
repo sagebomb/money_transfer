@@ -12,21 +12,26 @@ class TransactionsController < ApplicationController
   end
 
   def create
-    @transaction = Transaction.new(transaction_params)
-
-    if @transaction.save
-      render json: @transaction, status: :accepted, location: @transaction
+    # I pass uuid here to return something to the user
+    # user will be able to query transaction status using the uuid
+    transaction_uuid = SecureRandom.uuid
+    @transaction = Transaction.new(transaction_params) do |t|
+      t.uuid = transaction_uuid
+    end
+    if @transaction.valid?
+      TransactionProcessingWorker.perform_async(transaction_uuid, transaction_params.to_unsafe_h) # sidekiq doesn't support permitted params
+      render json: { uuid: transaction_uuid }, status: :accepted
     else
-      render json: { errors: @transaction.errors }, status: :unprocessable_entity
+      render json: { error: @transaction.errors }, status: :unprocessable_entity
     end
   end
 
   private
   def set_transaction
-    @transaction = Transaction.find(params[:id])
+    @transaction = Transaction.where('uuid = :id or id = :id', id: params[:id]).first!
   end
 
   def transaction_params
-    params.require(:transaction).permit(:from_account_id, :to_account_id, :amount, :state)
+    params.require(:transaction).permit(:from_account_id, :to_account_id, :amount)
   end
 end

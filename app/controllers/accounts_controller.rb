@@ -17,7 +17,7 @@ class AccountsController < ApplicationController
     if @account.save
       render json: @account, status: :created, location: @account
     else
-      render json: { errors: @account.errors }, status: :unprocessable_entity
+      render json: { error: @account.errors }, status: :unprocessable_entity
     end
   end
 
