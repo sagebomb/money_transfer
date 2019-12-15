@@ -1,7 +1,6 @@
 class Account < ApplicationRecord
   validates :holder_name, presence: true
-  validates :number, presence: true, uniqueness: true
-  validates :balance, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :balance, numericality: { greater_than_or_equal_to: 0 }
 
   paginates_per 50
 

@@ -10,15 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_14_162003) do
+ActiveRecord::Schema.define(version: 2019_12_15_151002) do
 
   create_table "accounts", force: :cascade do |t|
-    t.string "number"
     t.string "holder_name"
     t.decimal "balance", precision: 8, scale: 2, default: "0.0", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["number"], name: "index_accounts_on_number", unique: true
   end
 
   create_table "transactions", force: :cascade do |t|
@@ -28,8 +26,10 @@ ActiveRecord::Schema.define(version: 2019_12_14_162003) do
     t.string "state", default: "created"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "uuid"
     t.index ["from_account_id"], name: "index_transactions_on_from_account_id"
     t.index ["to_account_id"], name: "index_transactions_on_to_account_id"
+    t.index ["uuid"], name: "index_transactions_on_uuid"
   end
 
 end
