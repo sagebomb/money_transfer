@@ -68,7 +68,7 @@ A few words about testing: I personally prefer functional and integration testin
 ## What's missed?
 Logging and monitoring stuff.
 
-##Setup
+## Setup
 - clone the repo
 - install sqlite3, redis
 - `bundle`
