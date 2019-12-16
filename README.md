@@ -18,6 +18,8 @@ For the app itself I've chosen simple but powerful solution.
 
 Since account-related operations are trivial and happen not really often - they are processed on the main backend. I think 80% (or even 90%) of load on average something-transfer system goes with transaction processing. And it's really important do not block IO and give the response ASAP. That's why I think it's a great idea to push transaction data into some message broker and give an immediate response. And there will be a microservice to process transactions asynchronously of course 🙃.
 
+Since Rails is a good example of [shared-nothing architecture](https://en.wikipedia.org/wiki/Shared-nothing_architecture) thing - we don't actually need to do anything special with the app to make it threadsafe in our case.
+
 Hot damn! Isn't it?
 
 ## Tech Stack
